@@ -16,6 +16,12 @@ import {
 } from "../utils/chartTransform";
 import MonthlyBarChart from "../components/MonthlyBarChart";
 import CategoryPieChart from "../components/CategoryPieChart";
+import Card from "../components/ui/Card";
+import Button from "../components/ui/Button";
+import DateRangeFilter from "../components/DateRangeFilter";
+import CategoryFilter from "../components/CategoryFilter";
+
+
 
 const Dashboard = () => {
   const { user, logout } = useAuth();
@@ -24,6 +30,9 @@ const Dashboard = () => {
   const [loading, setLoading] = useState(true);
   const [monthlyData, setMonthlyData] = useState([]);
   const [categoryData, setCategoryData] = useState([]);
+  const [dateFilter, setDateFilter] = useState({});
+const [categoryFilter, setCategoryFilter] = useState("");
+
 
 
   useEffect(() => {
@@ -35,23 +44,25 @@ const Dashboard = () => {
 
     loadTransactions();
   }, []);
-  useEffect(() => {
-  const loadAnalytics = async () => {
-    const [monthlyRes, categoryRes] = await Promise.all([
-      fetchMonthlySummary(),
-      fetchCategorySummary()
-    ]);
 
-    setMonthlyData(
-      transformMonthlyData(monthlyRes.data.summary)
-    );
-    setCategoryData(
-      transformCategoryData(categoryRes.data.summary)
-    );
+  
+
+useEffect(() => {
+  const loadAnalytics = async () => {
+    const monthlyRes = await fetchMonthlySummary(dateFilter);
+
+    const categoryRes = await fetchCategorySummary({
+      ...dateFilter,
+      category: categoryFilter || undefined
+    });
+
+    setMonthlyData(transformMonthlyData(monthlyRes.data.summary));
+    setCategoryData(transformCategoryData(categoryRes.data.summary));
   };
 
   loadAnalytics();
-}, []);
+}, [dateFilter, categoryFilter]);
+
 
 
   const handleAdd = (transaction) => {
@@ -73,36 +84,78 @@ const Dashboard = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-100 p-6">
-      <div className="flex justify-between items-center mb-6">
-        <h1 className="text-2xl font-bold">Welcome, {user?.name}</h1>
-        <button
-          onClick={logout}
-          className="bg-red-500 text-white px-4 py-2 rounded"
-        >
-          Logout
-        </button>
-      </div>
+    <div className="min-h-screen bg-slate-50 p-6 space-y-6">
+      <Card className="p-6 mb-6 flex items-center justify-between">
+  <div>
+    <h1 className="text-xl font-semibold text-slate-900">
+      Dashboard
+    </h1>
+    <p className="text-sm text-slate-500">
+      Welcome back, {user?.name}
+    </p>
+  </div>
 
-      <TransactionForm
-        onAdd={handleAdd}
-        onUpdate={handleUpdate}
-        editing={editing}
-      />
+  <Button
+    variant="secondary"
+    className="w-auto px-4"
+    onClick={logout}
+  >
+    Logout
+  </Button>
+</Card>
+
+
+      <Card className="p-6 mb-6">
+  <TransactionForm
+    onAdd={handleAdd}
+    onUpdate={handleUpdate}
+    editing={editing}
+  />
+</Card>
+
 
       {loading ? (
         <p>Loading...</p>
       ) : (
-        <TransactionList
-          transactions={transactions}
-          onEdit={setEditing}
-          onDelete={handleDelete}
-        />
+        <Card className="p-6">
+  <h2 className="text-lg font-semibold text-slate-900 mb-4">
+    Recent Transactions
+  </h2>
+
+  <TransactionList
+    transactions={transactions}
+    onEdit={setEditing}
+    onDelete={handleDelete}
+  />
+</Card>
+
       )}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-8">
-            <MonthlyBarChart data={monthlyData} />
-            <CategoryPieChart data={categoryData} />
-      </div>
+
+      <Card className="p-4 flex flex-wrap gap-4 items-center">
+  <DateRangeFilter
+    onChange={(key, value) =>
+      setDateFilter((prev) => ({ ...prev, [key]: value }))
+    }
+  />
+
+  <CategoryFilter
+    categories={[...new Set(transactions.map(t => t.category))]}
+    onChange={setCategoryFilter}
+  />
+</Card>
+
+
+
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mt-6">
+  <Card className="p-6 h-96">
+    <MonthlyBarChart data={monthlyData} />
+  </Card>
+
+  <Card className="p-6 h-96">
+    <CategoryPieChart data={categoryData} />
+  </Card>
+</div>
+
 
     </div>
   );

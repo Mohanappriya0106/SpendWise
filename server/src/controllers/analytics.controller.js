@@ -7,9 +7,21 @@ import mongoose from "mongoose";
 const getMonthlySummary = async (req, res) => {
   try {
     const userId = new mongoose.Types.ObjectId(req.user.id);
+    const { startDate, endDate } = req.query;
+
+    const match = {
+      user: userId
+    };
+
+    if (startDate && endDate) {
+      match.date = {
+        $gte: new Date(startDate),
+        $lte: new Date(endDate)
+      };
+    }
 
     const summary = await Transaction.aggregate([
-      { $match: { user: userId } },
+      { $match: match },
       {
         $group: {
           _id: {
@@ -38,12 +50,11 @@ const getMonthlySummary = async (req, res) => {
     ]);
 
     res.status(200).json({ summary });
-  } catch (error) {
-    res.status(500).json({
-      message: "Failed to generate monthly summary"
-    });
+  } catch {
+    res.status(500).json({ message: "Failed to generate summary" });
   }
 };
+
 
 /**
  * Category-wise expense summary
@@ -51,14 +62,26 @@ const getMonthlySummary = async (req, res) => {
 const getCategorySummary = async (req, res) => {
   try {
     const userId = new mongoose.Types.ObjectId(req.user.id);
+    const { startDate, endDate, category } = req.query;
+
+    const match = {
+      user: userId,
+      type: "expense"
+    };
+
+    if (startDate && endDate) {
+      match.date = {
+        $gte: new Date(startDate),
+        $lte: new Date(endDate)
+      };
+    }
+
+    if (category) {
+      match.category = category;
+    }
 
     const summary = await Transaction.aggregate([
-      {
-        $match: {
-          user: userId,
-          type: "expense"
-        }
-      },
+      { $match: match },
       {
         $group: {
           _id: "$category",
@@ -69,11 +92,10 @@ const getCategorySummary = async (req, res) => {
     ]);
 
     res.status(200).json({ summary });
-  } catch (error) {
-    res.status(500).json({
-      message: "Failed to generate category summary"
-    });
+  } catch {
+    res.status(500).json({ message: "Failed to generate category summary" });
   }
 };
+
 
 export { getMonthlySummary, getCategorySummary };

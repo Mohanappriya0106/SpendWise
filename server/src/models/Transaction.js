@@ -20,12 +20,14 @@ const transactionSchema = new mongoose.Schema(
     category: {
       type: String,
       required: true,
+      lowercase: true,
       trim: true
     },
     note: {
       type: String,
       trim: true,
-      maxlength: 200
+      maxlength: 200,
+      required: false
     },
     date: {
       type: Date,

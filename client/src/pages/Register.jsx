@@ -1,6 +1,9 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import api from "../api/axios";
+import Card from "../components/ui/Card";
+import Input from "../components/ui/Input";
+import Button from "../components/ui/Button";
 
 const Register = () => {
   const navigate = useNavigate();
@@ -28,56 +31,65 @@ const Register = () => {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-100">
-      <form
-        onSubmit={handleSubmit}
-        className="bg-white p-6 rounded shadow-md w-80"
-      >
-        <h2 className="text-2xl font-bold mb-4 text-center">
-          Register
-        </h2>
+    <div className="min-h-screen flex items-center justify-center bg-slate-50 px-4">
+      <Card className="w-full max-w-md p-8">
+        <h1 className="text-2xl font-semibold text-slate-900 mb-2">
+          Create account
+        </h1>
+        <p className="text-sm text-slate-500 mb-6">
+          Start tracking your finances today
+        </p>
 
         {error && (
-          <p className="text-red-500 text-sm mb-3">{error}</p>
+          <div className="mb-4 text-sm text-rose-600 bg-rose-50 p-2 rounded">
+            {error}
+          </div>
         )}
 
-        <input
-          type="text"
-          placeholder="Name"
-          className="w-full border p-2 mb-3 rounded"
-          value={name}
-          onChange={(e) => setName(e.target.value)}
-          required
-        />
+        <form onSubmit={handleSubmit} className="space-y-4">
+          <Input
+            type="text"
+            placeholder="Full name"
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+            required
+          />
 
-        <input
-          type="email"
-          placeholder="Email"
-          className="w-full border p-2 mb-3 rounded"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          required
-        />
+          <Input
+            type="email"
+            placeholder="Email address"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            required
+          />
 
-        <input
-          type="password"
-          placeholder="Password"
-          className="w-full border p-2 mb-4 rounded"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          required
-        />
+          <Input
+            type="password"
+            placeholder="Password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            required
+          />
 
-        <button
-          type="submit"
-          className="w-full bg-green-600 text-white py-2 rounded hover:bg-green-700"
-        >
-          Register
-        </button>
-      </form>
+          <Button type="submit" className="w-full">
+            Create account
+          </Button>
+        </form>
+
+        <p className="text-sm text-slate-500 mt-6 text-center">
+          Already have an account?{" "}
+          <Link
+            to="/login"
+            className="text-indigo-600 hover:underline"
+          >
+            Sign in
+          </Link>
+        </p>
+      </Card>
     </div>
   );
 };
 
 export default Register;
+
 

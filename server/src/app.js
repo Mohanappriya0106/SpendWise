@@ -6,6 +6,8 @@ import authRoutes from "./routes/auth.routes.js";
 import userRoutes from "./routes/user.routes.js";
 import transactionRoutes from "./routes/transaction.routes.js";
 import analyticsRoutes from "./routes/analytics.routes.js";
+import budgetRoutes from "./routes/budget.routes.js";
+import marketRoutes from "./routes/market.routes.js";
 
 const app = express();
 
@@ -17,6 +19,9 @@ app.use("/api/auth", authRoutes);
 app.use("/api/users", userRoutes);
 app.use("/api/transactions", transactionRoutes);
 app.use("/api/analytics", analyticsRoutes);
+app.use("/api/budget", budgetRoutes);
+app.use("/api/market", marketRoutes);
+
 
 
 app.get("/health", (req, res) => {

@@ -8,32 +8,22 @@ export const AuthProvider = ({ children }) => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const storedToken = localStorage.getItem("token");
-    const storedUser = localStorage.getItem("user");
+    try {
+      const storedToken = localStorage.getItem("token");
+      const storedUser = localStorage.getItem("user");
 
-    if (storedToken && storedUser) {
-      setToken(storedToken);
-      setUser(JSON.parse(storedUser));
+      if (storedToken && storedUser && storedUser !== "undefined") {
+        setToken(storedToken);
+        setUser(JSON.parse(storedUser));
+      }
+    } catch (err) {
+      console.error("Failed to restore auth state", err);
+      localStorage.removeItem("token");
+      localStorage.removeItem("user");
+    } finally {
+      setLoading(false);
     }
-
-    setLoading(false);
   }, []);
-
-  //temp
-  useEffect(() => {
-  const storedToken = localStorage.getItem("token");
-  const storedUser = localStorage.getItem("user");
-
-  if (storedToken && storedUser) {
-    setToken(storedToken);
-    setUser(JSON.parse(storedUser));
-  }
-
-  setLoading(false);
-}, []);
-
-console.log("Auth state:", { loading, token });
-
 
   const login = (token, user) => {
     localStorage.setItem("token", token);
