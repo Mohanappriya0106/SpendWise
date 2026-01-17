@@ -3,7 +3,7 @@ import { NavLink } from "react-router-dom";
 const navItems = [
   { path: "/dashboard", label: "Home" },
   { path: "/transactions/new", label: "Add Transaction" },
-  { path: "/transactions", label: "All Transactions" },
+  { path: "/transactions", label: "All Transactions", end: true },
   { path: "/summary", label: "Summary" },
 ];
 
@@ -15,6 +15,7 @@ const Sidebar = ({ onClose }) => {
           <NavLink
             key={item.path}
             to={item.path}
+            end={item.end}
             onClick={() => onClose && onClose()}
             className={({ isActive }) =>
               `block rounded-lg px-3 py-2 text-sm font-medium ${

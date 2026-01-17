@@ -3,10 +3,10 @@ import Button from "./ui/Button";
 
 const LandingHeader = () => {
   return (
-    <header className="h-16 bg-white border-b border-slate-200 px-4 sm:px-6 flex items-center justify-between">
+    <header className="h-16 bg-white border-b border-slate-200 px-44 m:px-6 flex items-center justify-between">
       {/* Logo */}
       <div
-        className="text-xl font-bold tracking-tight"
+        className="text-3xl font-bold tracking-tight"
         style={{ fontFamily: "Inter, sans-serif" }}
       >
         <span className="text-indigo-600">Spend</span>

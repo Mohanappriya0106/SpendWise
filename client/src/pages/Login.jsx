@@ -3,6 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import { EyeIcon, EyeSlashIcon } from "@heroicons/react/24/outline";
 import api from "../api/axios";
+import { ArrowLeftIcon } from "@heroicons/react/24/outline";
 
 const Login = () => {
   const { login } = useAuth();
@@ -67,7 +68,15 @@ const Login = () => {
   };
 
   return (
-    <div className="min-h-screen grid grid-cols-1 md:grid-cols-2 bg-slate-50">
+    <div className="min-h-screen grid grid-cols-1 md:grid-cols-2 bg-slate-50  relative">
+
+      <button
+  onClick={() => navigate("/")}
+  className="absolute top-4 left-4 flex items-center gap-2 text-m font-medium text-slate-600 hover:text-slate-900 transition pt-4 pl-4"
+>
+  <ArrowLeftIcon className="h-4 w-4" />
+  Back to Home
+</button>
       {/* LEFT */}
       <div className="hidden md:flex items-center justify-center bg-white">
         <img

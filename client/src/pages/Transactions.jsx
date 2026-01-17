@@ -67,10 +67,10 @@ const [typeFilter, setTypeFilter] = useState("all");
 }, [transactions, dateRange, typeFilter]);
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-6 ">
       {editing && (
         <Card className="p-6">
-          <h2 className="font-semibold mb-4">Edit Transaction</h2>
+          <h2 className="font-semibold mb-4 text-blue-700">Edit Transaction</h2>
           <TransactionForm
             editing={editing}
             onUpdate={handleUpdate}
@@ -78,60 +78,58 @@ const [typeFilter, setTypeFilter] = useState("all");
         </Card>
       )}
 
-      <Card className="p-6">
-        <h1 className="text-xl font-semibold text-slate-900 mb-4">
-          Transaction History
-        </h1>
-        <div className="flex flex-wrap gap-4 mb-6">
-  {/* Date range */}
-  <div className="flex items-center gap-2">
-    <input
-      type="date"
-      className="border rounded-md px-2 py-1 text-sm"
-      value={dateRange.from}
-      onChange={(e) =>
-        setDateRange((p) => ({ ...p, from: e.target.value }))
-      }
-    />
-    <span className="text-slate-400 text-sm">to</span>
-    <input
-      type="date"
-      className="border rounded-md px-2 py-1 text-sm"
-      value={dateRange.to}
-      onChange={(e) =>
-        setDateRange((p) => ({ ...p, to: e.target.value }))
-      }
-    />
+      <Card className="p-6 max-w-4xl mx-auto">
+  <h1 className="text-xl font-semibold text-blue-700 mb-4">
+    Transaction History
+  </h1>
+
+  <div className="flex flex-wrap gap-4 mb-6">
+    {/* Date range */}
+    <div className="flex items-center gap-2">
+      <input
+        type="date"
+        className="border rounded-md px-2 py-1 text-sm"
+        value={dateRange.from}
+        onChange={(e) =>
+          setDateRange((p) => ({ ...p, from: e.target.value }))
+        }
+      />
+      <span className="text-slate-400 text-sm">to</span>
+      <input
+        type="date"
+        className="border rounded-md px-2 py-1 text-sm"
+        value={dateRange.to}
+        onChange={(e) =>
+          setDateRange((p) => ({ ...p, to: e.target.value }))
+        }
+      />
+    </div>
+
+    {/* Type filter */}
+    <select
+      className="border rounded-md px-3 py-1.5 text-sm"
+      value={typeFilter}
+      onChange={(e) => setTypeFilter(e.target.value)}
+    >
+      <option value="all">All</option>
+      <option value="income">Income</option>
+      <option value="expense">Expense</option>
+    </select>
   </div>
 
-  {/* Type filter */}
-  <select
-    className="border rounded-md px-3 py-1.5 text-sm"
-    value={typeFilter}
-    onChange={(e) => setTypeFilter(e.target.value)}
-  >
-    <option value="all">All</option>
-    <option value="income">Income</option>
-    <option value="expense">Expense</option>
-  </select>
-</div>
+  {loading ? (
+    <p className="text-slate-500">Loading...</p>
+  ) : filteredTransactions.length === 0 ? (
+    <p className="text-slate-500">No transactions found.</p>
+  ) : (
+    <TransactionList
+      transactions={filteredTransactions}
+      onEdit={setEditing}
+      onDelete={handleDelete}
+    />
+  )}
+</Card>
 
-
-        {loading ? (
-          <p className="text-slate-500">Loading...</p>
-        ) : transactions.length === 0 ? (
-          <p className="text-slate-500">
-            No transactions yet.
-          </p>
-        ) : (
-          <TransactionList
-  transactions={filteredTransactions}
-  onEdit={setEditing}
-  onDelete={handleDelete}
-/>
-
-        )}
-      </Card>
     </div>
   );
 };

@@ -38,7 +38,7 @@ const Home = () => {
 
       {/* Income & Expense */}
       <div>
-        <h2 className="text-sm font-medium text-slate-500 mb-3">
+        <h2 className="text-sm font-medium text-blue-700 mb-3">
           This Month
         </h2>
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
@@ -57,7 +57,7 @@ const Home = () => {
 
       {/* Savings & Budget */}
       <div>
-        <h2 className="text-sm font-medium text-slate-500 mb-3">
+        <h2 className="text-sm font-medium text-blue-700 mb-3">
           Savings Overview
         </h2>
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
@@ -76,7 +76,7 @@ const Home = () => {
 
       {/* Market Insight */}
       <div>
-        <h2 className="text-sm font-medium text-slate-500 mb-2">
+        <h2 className="text-sm font-medium text-blue-700 mb-2">
           Market Insight
         </h2>
         <p className="text-sm text-slate-600 mb-4 max-w-2xl">

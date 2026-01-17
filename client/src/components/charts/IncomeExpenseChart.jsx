@@ -4,8 +4,8 @@ const IncomeExpenseChart = ({ series, categories }) => {
   const options = {
     chart: {
       type: "bar",
-      toolbar: { show: true },
-      zoom: { enabled: true }
+      toolbar: { show: false },
+      zoom: { enabled: false }
     },
     plotOptions: {
       bar: {

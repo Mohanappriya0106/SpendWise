@@ -13,7 +13,7 @@ const AddTransaction = () => {
     <div className="max-w-3xl mx-auto space-y-8">
       {/* Page Header */}
       <div>
-        <h1 className="text-2xl font-semibold text-slate-900">
+        <h1 className="text-2xl font-semibold text-blue-700">
           Add Transaction
         </h1>
         <p className="text-sm text-slate-500 mt-1 max-w-xl">

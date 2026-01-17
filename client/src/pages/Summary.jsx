@@ -86,7 +86,7 @@ const Summary = () => {
       {/* SECTION 1 — FINANCIAL OVERVIEW */}
       <Card className="p-6 space-y-4">
         <div>
-          <h2 className="text-lg font-semibold text-slate-900">
+          <h2 className="text-lg font-semibold text-blue-700">
             Financial Overview
           </h2>
           <p className="text-sm text-slate-500">
@@ -111,7 +111,7 @@ const Summary = () => {
       {/* SECTION 2 — INCOME VS EXPENSE ANALYSIS */}
       <Card className="p-6 space-y-6">
         <div>
-          <h2 className="text-lg font-semibold text-slate-900">
+          <h2 className="text-lg font-semibold text-blue-700">
             Income vs Expense Analysis
           </h2>
           <p className="text-sm text-slate-500">
@@ -145,7 +145,7 @@ const Summary = () => {
       {/* SECTION 3 — CATEGORY DISTRIBUTION */}
       <Card className="p-6 space-y-6">
         <div>
-          <h2 className="text-lg font-semibold text-slate-900">
+          <h2 className="text-lg font-semibold text-blue-700">
             Category Distribution
           </h2>
           <p className="text-sm text-slate-500">
@@ -166,7 +166,7 @@ const Summary = () => {
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
           <div>
-            <h3 className="font-semibold mb-3">
+            <h3 className="font-semibold mb-3 text-blue-700">
               Income by Category
             </h3>
             <ExpenseCategoryChart
@@ -176,7 +176,7 @@ const Summary = () => {
           </div>
 
           <div>
-            <h3 className="font-semibold mb-3">
+            <h3 className="font-semibold mb-3 text-pink-500">
               Expense by Category
             </h3>
             <ExpenseCategoryChart
