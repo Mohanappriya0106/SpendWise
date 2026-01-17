@@ -9,10 +9,37 @@ import analyticsRoutes from "./routes/analytics.routes.js";
 import budgetRoutes from "./routes/budget.routes.js";
 import marketRoutes from "./routes/market.routes.js";
 
+
 const app = express();
 
 app.use(express.json());
-app.use(cors());
+console.log("CLIENT_URL =", process.env.CLIENT_URL);
+
+app.use(
+  cors({
+    origin: (origin, callback) => {
+      const allowedOrigins = [
+        process.env.CLIENT_URL,
+        "http://localhost:5173",
+        "http://localhost:5174",
+        "http://localhost:5175",
+        "http://localhost:5176",
+        "http://localhost:5177"
+      ];
+
+      // Allow server-to-server / Postman / mobile apps
+      if (!origin) return callback(null, true);
+
+      if (allowedOrigins.includes(origin)) {
+        callback(null, true);
+      } else {
+        callback(new Error("CORS: Origin not allowed"));
+      }
+    },
+    credentials: true
+  })
+);
+
 app.use(helmet());
 app.use(morgan("dev"));
 app.use("/api/auth", authRoutes);

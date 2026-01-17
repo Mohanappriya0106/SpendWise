@@ -1,9 +1,13 @@
+// =====================
+// SECTION 1 — KPI METRICS
+// =====================
 export const buildSummaryMetrics = (transactions, startDate, endDate) => {
   let income = 0;
   let expense = 0;
 
   transactions.forEach((t) => {
     const d = new Date(t.date);
+
     if (
       (!startDate || d >= new Date(startDate)) &&
       (!endDate || d <= new Date(endDate))
@@ -20,48 +24,74 @@ export const buildSummaryMetrics = (transactions, startDate, endDate) => {
   };
 };
 
-export const buildIncomeExpenseSeries = (transactions, startDate, endDate) => {
+// =====================
+// SECTION 2 — INCOME VS EXPENSE (MONTHLY)
+// =====================
+export const buildIncomeExpenseSeries = (
+  transactions,
+  startDate,
+  endDate
+) => {
   const map = {};
 
   transactions.forEach((t) => {
     const d = new Date(t.date);
+
     if (
       (!startDate || d >= new Date(startDate)) &&
       (!endDate || d <= new Date(endDate))
     ) {
-      const key = `${d.getFullYear()}-${d.getMonth() + 1}`;
-      if (!map[key]) map[key] = { income: 0, expense: 0 };
+      // ✅ zero-padded month for correct sorting
+      const month = String(d.getMonth() + 1).padStart(2, "0");
+      const key = `${d.getFullYear()}-${month}`;
+
+      if (!map[key]) {
+        map[key] = { income: 0, expense: 0 };
+      }
+
       map[key][t.type] += t.amount;
     }
   });
 
-  const labels = Object.keys(map).sort();
+  // ✅ sort chronologically using Date
+  const sortedKeys = Object.keys(map).sort(
+    (a, b) => new Date(`${a}-01`) - new Date(`${b}-01`)
+  );
+
+  // ✅ convert to readable labels (Jan 2025)
+  const categories = sortedKeys.map((k) => {
+    const [year, month] = k.split("-");
+    return new Date(year, month - 1).toLocaleString("default", {
+      month: "short",
+      year: "numeric"
+    });
+  });
+
   return {
-    categories: labels,
-    income: labels.map((l) => map[l].income),
-    expense: labels.map((l) => map[l].expense)
+    categories,
+    income: sortedKeys.map((k) => map[k].income),
+    expense: sortedKeys.map((k) => map[k].expense)
   };
 };
 
+// =====================
+// SECTION 3 — CATEGORY PIE CHART
+// =====================
 export const buildCategorySeries = (
   transactions,
   startDate,
   endDate,
   type
 ) => {
-  const filtered = transactions.filter((t) => {
-    const txDate = new Date(t.date);
-
-    if (type && t.type !== type) return false;
-    if (startDate && txDate < new Date(startDate)) return false;
-    if (endDate && txDate > new Date(endDate)) return false;
-
-    return true;
-  });
-
   const map = {};
 
-  filtered.forEach((t) => {
+  transactions.forEach((t) => {
+    const d = new Date(t.date);
+
+    if (type && t.type !== type) return;
+    if (startDate && d < new Date(startDate)) return;
+    if (endDate && d > new Date(endDate)) return;
+
     map[t.category] = (map[t.category] || 0) + t.amount;
   });
 
