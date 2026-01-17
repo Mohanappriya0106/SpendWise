@@ -1,4 +1,5 @@
 import LandingHeader from "../components/LandingHeader";
+import { Link } from "react-router-dom";
 
 const Landing = () => {
   return (
@@ -23,19 +24,18 @@ const Landing = () => {
             </p>
 
             <div className="flex flex-col sm:flex-row justify-center gap-3 sm:gap-4">
-              <a
-                href="/register"
+              <link
+                to="/register"
                 className="bg-indigo-600 text-white px-6 py-3 rounded-lg font-medium hover:bg-indigo-700 transition"
               >
                 Start Free
-              </a>
-
-              <a
-                href="/login"
+              </link>
+              <link
+                to="/login"
                 className="border border-slate-300 px-6 py-3 rounded-lg font-medium text-slate-700 hover:bg-slate-100 transition"
               >
                 Sign In
-              </a>
+              </link>
             </div>
           </div>
 
