@@ -17,23 +17,12 @@ console.log("CLIENT_URL =", process.env.CLIENT_URL);
 
 app.use(
   cors({
-    origin: (origin, callback) => {
-      const allowedOrigins = [
-        process.env.CLIENT_URL
-      ];
-
-      // Allow server-to-server / Postman / mobile apps
-      if (!origin) return callback(null, true);
-
-      if (allowedOrigins.includes(origin)) {
-        callback(null, true);
-      } else {
-        callback(new Error("CORS: Origin not allowed"));
-      }
-    },
+    origin: process.env.CLIENT_URL,
     credentials: true
   })
 );
+
+
 
 app.use(helmet());
 app.use(morgan("dev"));
