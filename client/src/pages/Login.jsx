@@ -44,7 +44,7 @@ const Login = () => {
       {
         theme: "outline",
         size: "large",
-        width: "100%"
+        width: 300
       }
     );
   }, []);
@@ -168,7 +168,10 @@ const Login = () => {
           </div>
 
           {/* GOOGLE BUTTON */}
-          <div id="google-login-btn" />
+          <div className="flex justify-center">
+            <div id="google-login-btn" />
+          </div>
+            
 
           <p className="text-sm text-slate-500 text-center mt-6">
             Don’t have an account?{" "}
