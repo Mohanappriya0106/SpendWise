@@ -131,6 +131,7 @@ const Login = () => {
               <div className="relative mt-1">
                 <input
                   type={showPassword ? "text" : "password"}
+                  autoComplete="current-password"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   placeholder="Enter your password"
