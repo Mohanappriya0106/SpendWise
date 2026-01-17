@@ -24,18 +24,18 @@ const Landing = () => {
             </p>
 
             <div className="flex flex-col sm:flex-row justify-center gap-3 sm:gap-4">
-              <link
+              <Link
                 to="/register"
                 className="bg-indigo-600 text-white px-6 py-3 rounded-lg font-medium hover:bg-indigo-700 transition"
               >
                 Start Free
-              </link>
-              <link
+              </Link>
+              <Link   
                 to="/login"
                 className="border border-slate-300 px-6 py-3 rounded-lg font-medium text-slate-700 hover:bg-slate-100 transition"
               >
                 Sign In
-              </link>
+              </Link>
             </div>
           </div>
 
